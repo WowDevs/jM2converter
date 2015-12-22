@@ -7,7 +7,12 @@ Usage (example with Frog.m2) :
 
 Type `java -jar jm2converter.jar` to get a list of all converting options ;)
 
-Beware, when you retroport a model, you always lose some data (the newer client features).
+* Beware, when you retroport a model, you always lose some data (the newer client features) and you won't be able to get them back if you up convert it back later.
+
+* The Legion support is still changing. The game is still in Beta so the M2 format changes. Right now it should work for build 20810.
+
+##What's yet to be implemented :
+* BC to LK conversion.
 
 ##Credits :
 * Thanks to all the guys who test this to find bugs ;) !

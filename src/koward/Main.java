@@ -45,7 +45,7 @@ public class Main {
 		options.addOption("cata", "cataclysm", false, "convert to Cataclysm");
 		options.addOption("mop", "pandaria", false, "convert to Mists of Pandaria");
 		options.addOption("wod", "draenor", false, "convert to Warlords of Draenor");
-		options.addOption("leg", "legion", false, "convert to Legion (Beta)");
+		options.addOption("leg", "legion", false, "convert to Legion (Build 20810)");
 		options.addOption("about", false, "show credits");
 		CommandLineParser parser = new DefaultParser();
 		CommandLine cmd = parser.parse(options, args);
