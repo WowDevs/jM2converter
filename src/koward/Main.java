@@ -33,7 +33,7 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("[[ Java M2 Converter by Koward v0.2.1-alpha ]]");
+		System.out.println("[[ Java M2 Converter by Koward v0.9.1-alpha ]]");
 		HelpFormatter formatter = new HelpFormatter();
 		Options options = new Options();
 		options.addOption("in", "input", true, "path to input file");
