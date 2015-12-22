@@ -24,7 +24,7 @@ import jm2lib.blizzard.io.BlizzardOutputStream;
  *
  */
 public class Main {
-	private static final String HELP = "java -jar jm2converter [OPTIONS]\n";
+	private static final String HELP = "java -jar jm2converter.jar [OPTIONS]\n";
 
 	/**
 	 * Main method.
@@ -33,14 +33,14 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("[[ Java M2 Converter by Koward v0.9.1-alpha ]]");
+		System.out.println("[[ Java M2 Converter by Koward v1.0.1-beta ]]");
 		HelpFormatter formatter = new HelpFormatter();
 		Options options = new Options();
 		options.addOption("in", "input", true, "path to input file");
 		options.addOption("out", "output", true, "path to output file");
 		options.addOption("cl", "classic", false, "convert to Classic");
 		options.addOption("bc", "burningcrusade", false, "convert to The Burning Crusade");
-		options.addOption("lbc", "lateburningcrusade", false, "convert to The Burning Crusade (late versions)");
+		options.addOption("lbc", "lateburningcrusade", false, "convert to The Burning Crusade (late versions), better for particles");
 		options.addOption("lk", "lichking", false, "convert to Wrath of the Lich King");
 		options.addOption("cata", "cataclysm", false, "convert to Cataclysm");
 		options.addOption("mop", "pandaria", false, "convert to Mists of Pandaria");
