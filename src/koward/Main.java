@@ -33,7 +33,7 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("[[ Java M2 Converter by Koward v1.0.1-beta ]]");
+		System.out.println("[[ Java M2 Converter by Koward v1.0.2-beta ]]");
 		HelpFormatter formatter = new HelpFormatter();
 		Options options = new Options();
 		options.addOption("in", "input", true, "path to input file");
@@ -74,6 +74,7 @@ public class Main {
 		BlizzardOutputStream out = new BlizzardOutputStream(cmd.getOptionValue("output"));
 		if (newVersion == M2Format.LEGION) {
 			//Pack the MD20 in MD21 chunk
+			//TODO Generate other chunks
 			MD21 pack = new MD21();
 			pack.setM2(model);
 			out.writeObject(pack);
