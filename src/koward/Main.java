@@ -10,12 +10,12 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 
-import jm2lib.blizzard.files.M2;
-import jm2lib.blizzard.files.M2Format;
-import jm2lib.blizzard.files.MD21;
 import jm2lib.blizzard.io.BlizzardFile;
 import jm2lib.blizzard.io.BlizzardInputStream;
 import jm2lib.blizzard.io.BlizzardOutputStream;
+import jm2lib.blizzard.wow.M2;
+import jm2lib.blizzard.wow.M2Format;
+import jm2lib.blizzard.wow.MD21;
 
 /**
  * Java M2 Converter Main class.
@@ -24,7 +24,8 @@ import jm2lib.blizzard.io.BlizzardOutputStream;
  *
  */
 public class Main {
-	private static final String HELP = "java -jar jm2converter.jar [OPTIONS]\n";
+	private static final String HELP = "(example with Frog.m2 to Classic)"
+			+ "\tjava -jar jm2converter.jar -in Frog.m2 -out FrogConverted.m2 -cl\n";
 
 	/**
 	 * Main method.
@@ -33,7 +34,7 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("[[ Java M2 Converter by Koward v1.0.2-beta ]]");
+		System.out.println("[[ Java M2 Converter by Koward v1.0.5-beta ]]");
 		HelpFormatter formatter = new HelpFormatter();
 		Options options = new Options();
 		options.addOption("in", "input", true, "path to input file");
@@ -46,7 +47,6 @@ public class Main {
 		options.addOption("mop", "pandaria", false, "convert to Mists of Pandaria");
 		options.addOption("wod", "draenor", false, "convert to Warlords of Draenor");
 		options.addOption("leg", "legion", false, "convert to Legion (Build 20810)");
-		options.addOption("about", false, "show credits");
 		CommandLineParser parser = new DefaultParser();
 		CommandLine cmd = parser.parse(options, args);
 

@@ -56,7 +56,10 @@ UAll
 /log.txt
 
 # Others
+.classpath
+/.settings/
 /wiki/
 /html/
 /latex/
 /bin/
+/lib/
