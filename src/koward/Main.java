@@ -10,12 +10,12 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 
-import jm2lib.blizzard.io.BlizzardFile;
 import jm2lib.blizzard.io.BlizzardInputStream;
 import jm2lib.blizzard.io.BlizzardOutputStream;
 import jm2lib.blizzard.wow.M2;
 import jm2lib.blizzard.wow.M2Format;
 import jm2lib.blizzard.wow.MD21;
+import jm2lib.io.Marshalable;
 
 /**
  * Java M2 Converter Main class.
@@ -34,7 +34,7 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("[[ Java M2 Converter by Koward v1.0.5-beta ]]");
+		System.out.println("[[ Java M2 Converter by Koward v1.0.6-beta ]]");
 		HelpFormatter formatter = new HelpFormatter();
 		Options options = new Options();
 		options.addOption("in", "input", true, "path to input file");
@@ -57,7 +57,7 @@ public class Main {
 		}
 
 		BlizzardInputStream in = new BlizzardInputStream(cmd.getOptionValue("input"));
-		BlizzardFile obj = (BlizzardFile) in.readObject();
+		Marshalable obj = (Marshalable) in.readObject();
 		in.close();
 		M2 model;
 		if (obj instanceof M2) {
@@ -73,8 +73,7 @@ public class Main {
 
 		BlizzardOutputStream out = new BlizzardOutputStream(cmd.getOptionValue("output"));
 		if (newVersion == M2Format.LEGION) {
-			//Pack the MD20 in MD21 chunk
-			//TODO Generate other chunks
+			//Pack the MD20 inside MD21 chunked format
 			MD21 pack = new MD21();
 			pack.setM2(model);
 			out.writeObject(pack);
@@ -96,6 +95,7 @@ public class Main {
 		map.put("draenor", M2Format.DRAENOR);
 		map.put("legion", M2Format.LEGION);
 		boolean converted = false;
+		int oldVersion = model.getVersion();
 		int newVersion = 0;
 		for (Entry<String, Integer> entry : map.entrySet()) {
 			String option = entry.getKey();
@@ -106,9 +106,10 @@ public class Main {
 				newVersion = version;
 			}
 		}
-		if (!converted) {
+		if (!converted)
 			System.err.println("Warning : no version specified. The model has not been converted.");
-		}
+		else if(oldVersion == newVersion)
+			System.err.println("Warning : Original version and new version are identical.");
 		return newVersion;
 	}
 }
