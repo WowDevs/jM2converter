@@ -1,5 +1,5 @@
 # jM2converter
-World of Warcraft M2 Universal Converter;
+World of Warcraft Universal Model Converter;
 Works using the [jM2lib project](https://github.com/Koward/jM2lib). *Still early prototype.*
 
 ##Usage (example with Frog.m2) :
@@ -16,6 +16,12 @@ http://adf.ly/1TtsYH
 
 ##What's yet to be implemented :
 * BC to LK up-conversion.
+* MDX to Classic up-conversion (needs MDX support in jM2lib first)
+
+##Known issues :
+* Some particles are not displayed.
+* Ribbons are sometimes funky.
+* Colors may go weird, like yellow instead of purple.
 
 ##Credits :
 * Thanks to all the guys who test this to find bugs ;) !
