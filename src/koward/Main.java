@@ -113,7 +113,7 @@ public class Main {
 		if (!converted)
 			System.err.println("Warning : no version specified. The model has not been converted.");
 		else if(oldVersion == newVersion)
-			System.err.println("Warning : Original version and new version are identical.");
+			System.err.println("Warning : original version and new version are identical.");
 		return newVersion;
 	}
 }

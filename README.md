@@ -1,8 +1,11 @@
 # jM2converter
-World of Warcraft Universal Model Converter;
-Works using the [jM2lib project](https://github.com/Koward/jM2lib). *Still early prototype.*
+World of Warcraft Universal Model Converter.  
+Works using the [jM2lib project](https://github.com/Koward/jM2lib). *Still early prototype.*  
 
 ##Usage (example with Frog.m2) :
+This is a Java command-line tool.  
+You may need to install Java : [Install Java](https://java.com/en/download/help/download_options.xml)  
+And setup paths for your environment : [PATH and CLASSPATH](https://docs.oracle.com/javase/tutorial/essential/environment/paths.html)  
 `java -jar jm2converter.jar -in "Frog.m2" -out "FrogConverted.m2" <OPTIONS>`
 
 Type `java -jar jm2converter.jar` to get a list of all converting options ;)
@@ -15,8 +18,8 @@ Type `java -jar jm2converter.jar` to get a list of all converting options ;)
 http://adf.ly/1TtsYH
 
 ##What's yet to be implemented :
-* BC to LK up-conversion.
-* MDX to Classic up-conversion (needs MDX support in jM2lib first)
+* BC => LK up-conversion.
+* MDX <=> Classic conversion (needs MDX support in jM2lib first)
 
 ##Known issues :
 * Some particles are not displayed.
@@ -25,4 +28,3 @@ http://adf.ly/1TtsYH
 
 ##Credits :
 * Thanks to all the guys who test this to find bugs ;) !
-
