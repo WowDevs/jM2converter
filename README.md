@@ -1,4 +1,4 @@
-# jM2converter
+# jM2converter 1.0.8-beta
 World of Warcraft Universal Model Converter.  
 Works using the [jM2lib project](https://github.com/Koward/jM2lib). *Still early prototype.*  
 
@@ -12,17 +12,17 @@ Type `java -jar jm2converter.jar` to get a list of all converting options ;)
 
 * Beware, when you retroport a model, you always lose some data (the newer client features) and you won't be able to get them back if you up convert it back later.
 
-* The Legion support is still changing. The game is still in Beta so the M2 format changes. Right now it should work for build 20810.
+* The Legion support is still changing. The game is still in Beta so the M2 format changes. Right now it should work up to build 20810.
 
 ##Download :
-http://adf.ly/1TtsYH
+[MediaFire](http://adf.ly/1TtsYH)
 
 ##What's yet to be implemented :
 * BC => LK up-conversion.
+* LK => Cata cameras up-conversion.
 * MDX <=> Classic conversion (needs MDX support in jM2lib first)
 
 ##Known issues :
-* Some particles are not displayed.
 * Ribbons are sometimes funky.
 * Colors may go weird, like yellow instead of purple.
 
