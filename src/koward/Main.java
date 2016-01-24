@@ -59,7 +59,7 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("[[ Java M2 Converter by Koward v1.0.8a-beta ]]");
+		System.out.println("[[ Java M2 Converter by Koward v1.0.8b-beta ]]");
 		HelpFormatter formatter = new HelpFormatter();
 		CommandLineParser parser = new DefaultParser();
 		CommandLine cmd = parser.parse(options, args);
@@ -79,10 +79,10 @@ public class Main {
 			model = ((MD21) obj).getM2();
 		} else
 			throw new Exception("Unknown structure");
-		System.out.println("Model read.");
+		System.out.println(cmd.getOptionValue("input") + " read.");
 
 		int newVersion = convertModel(model, cmd);
-		System.out.println("Model converted.");
+		System.out.println("Conversion completed.");
 
 		BlizzardOutputStream out = new BlizzardOutputStream(cmd.getOptionValue("output"));
 		if (newVersion == M2Format.LEGION) {
@@ -93,7 +93,7 @@ public class Main {
 		} else {
 			out.writeObject(model);
 		}
-		System.out.println("Model written.");
+		System.out.println(cmd.getOptionValue("output") + " written.");
 		out.close();
 	}
 
