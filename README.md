@@ -1,4 +1,4 @@
-# jM2converter 1.0.8-beta
+# jM2converter 1.0.8a-beta (fixed !)
 World of Warcraft Universal Model Converter.  
 Works using the [jM2lib project](https://github.com/Koward/jM2lib). *Still early prototype.*  
 

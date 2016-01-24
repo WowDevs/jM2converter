@@ -59,7 +59,7 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("[[ Java M2 Converter by Koward v1.0.8-beta ]]");
+		System.out.println("[[ Java M2 Converter by Koward v1.0.8a-beta ]]");
 		HelpFormatter formatter = new HelpFormatter();
 		CommandLineParser parser = new DefaultParser();
 		CommandLine cmd = parser.parse(options, args);
