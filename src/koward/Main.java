@@ -28,10 +28,11 @@ public class Main {
   private static final String HELP = "(example with Frog.m2 to Classic for one file:)"
      + "\njava -jar jm2converter.jar -in Frog.m2 -out FrogConverted.m2 -cl\n"
      + "for a whole folder:"
-     + "\njava -jar jm2converter.jar -in folder/path -out folder/outputpath -f -cl\n\n";
+     + "\njava -jar jm2converter.jar -in folder/path/ -out folder/outputpath/ -f -cl\n"
+    + "the last '/' or '\\' is important! \n\n";
   private static final Options options;
   private static final Map<String, Integer> map;
-  private static final String FILE_ENDING = ".m2";
+  private static final String FILE_ENDING_M2 = ".m2";
 
   static {
     options = new Options();
@@ -98,20 +99,20 @@ public class Main {
 
   private static void convert(CommandLine cmd, boolean isFolder) throws Exception {
     if (isFolder) {
-      proccessFiles(cmd, getFilePathsFromFolder(cmd.getOptionValue("input")));
+      proccessFiles(cmd, getFileNamesFromFolder(cmd.getOptionValue("input")), isFolder);
     }
     else {
       ArrayList<String> fileList = new ArrayList<>();
       fileList.add(cmd.getOptionValue("input"));
-      proccessFiles(cmd, fileList);
+      proccessFiles(cmd, fileList, isFolder);
     }
 
   }
 
-  private static void proccessFiles(CommandLine cmd, ArrayList<String> fileList) throws Exception {
+  private static void proccessFiles(CommandLine cmd, ArrayList<String> fileList, boolean isFolder) throws Exception {
     for (String currentFile : fileList) {
 
-      BlizzardInputStream in = new BlizzardInputStream(currentFile);
+      BlizzardInputStream in = new BlizzardInputStream((isFolder) ? cmd.getOptionValue("input") + currentFile : currentFile);
       Marshalable obj = (Marshalable) in.readObject();
       in.close();
       M2 model;
@@ -131,7 +132,17 @@ public class Main {
 
       System.out.println("Conversion completed.");
 
-      BlizzardOutputStream out = new BlizzardOutputStream(currentFile);
+      if (!isFolder) {
+        File newFile = new File(cmd.getOptionValue("output"));
+        if (!newFile.exists()) {
+          File newDir = new File(newFile.getParent());
+          if (!newDir.exists()) {
+            newDir.mkdir();
+          }
+        }
+      }
+
+      BlizzardOutputStream out = (isFolder) ? new BlizzardOutputStream(cmd.getOptionValue("output") + currentFile) : new BlizzardOutputStream(cmd.getOptionValue("output")) ;
       if (newVersion == M2Format.LEGION) {
         //Pack the MD20 inside MD21 chunked format
         MD21 pack = new MD21();
@@ -141,7 +152,7 @@ public class Main {
       else {
         out.writeObject(model);
       }
-      System.out.println(cmd.getOptionValue("output") + " written.");
+      System.out.println((isFolder) ? cmd.getOptionValue("output") + currentFile  + " written." : cmd.getOptionValue("output") + " written.");
       out.close();
     }
   }
@@ -168,15 +179,15 @@ public class Main {
     return newVersion;
   }
 
-  private static ArrayList<String> getFilePathsFromFolder(String pathToFolder) {
+  private static ArrayList<String> getFileNamesFromFolder(String pathToFolder) {
     ArrayList<String> results = new ArrayList<>();
 
     File[] files = new File(pathToFolder).listFiles();
 
     if (files != null) {
       for (File file : files) {
-        if (file.isFile()) {
-          results.add(file.getAbsolutePath());
+        if (file.isFile() && file.getName().toLowerCase().contains(FILE_ENDING_M2)) {
+          results.add(file.getName());
         }
       }
     }
