@@ -10,6 +10,10 @@ Testing/
 .project
 .cproject
 
+# Idea
+.idea
+jM2converter.iml
+
 # Doxygen
 doc
 
@@ -63,3 +67,6 @@ UAll
 /latex/
 /bin/
 /lib/
+/src/META-INF
+/out
+/res
