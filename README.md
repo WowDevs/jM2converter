@@ -7,9 +7,11 @@ This is a Java command-line tool.
 You may need to install Java : [Install Java](https://java.com/en/download/help/download_options.xml)  
 And setup paths for your environment : [PATH and CLASSPATH](https://docs.oracle.com/javase/tutorial/essential/environment/paths.html)  
 
-Command line : `java -jar jm2converter.jar -in "Frog.m2" -out "FrogConverted.m2" <OPTIONS>`
+Command line : `java -jar jm2converter.jar -in "path/to/inputFolder/" -out "path/to/outputfolder/" <OPTIONS>`
 
-Type `java -jar jm2converter.jar` to get a list of all converting options ;)
+The "/" or "\" at the end of paths is important. New option is -f for whole folders. Only in oppahansi's version.
+
+Type `java -jar jm2converter.jar` to get a list of all converting options and two examples ;)
 
 * Beware, when you retroport a model, you always lose some data (the newer client features) and you won't be able to get them back if you up convert it back later.
 
@@ -17,6 +19,7 @@ Type `java -jar jm2converter.jar` to get a list of all converting options ;)
 
 ##Download :
 [MediaFire link](http://adf.ly/1TtsYH)
+[MediaFireLink to oppahansi's version with folder support](http://www.mediafire.com/download/339o8t1vm4bw641/jM2converter.jar)
 
 ##What's yet to be implemented :
 * BC => LK up-conversion.
