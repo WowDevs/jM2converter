@@ -6,6 +6,9 @@ Works using the [jM2lib project](https://github.com/Koward/jM2lib). *Still early
 This is a Java command-line tool.  
 You may need to install Java : [Install Java](https://java.com/en/download/help/download_options.xml)  
 And setup paths for your environment : [PATH and CLASSPATH](https://docs.oracle.com/javase/tutorial/essential/environment/paths.html)  
+Command line : `java -jar jm2converter.jar -in "Frog.m2" -out "FrogConverted.m2" <OPTIONS>`
+
+##Usage with whole folders(only in oppahansi's version)
 
 Command line : `java -jar jm2converter.jar -in "path/to/inputFolder/" -out "path/to/outputfolder/" <OPTIONS>`
 
