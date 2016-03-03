@@ -15,6 +15,10 @@ public class Constants {
      + "\n(Example for a whole folder:)\n"
      + "\njava -jar jm2converter.jar -in folder/path/ -out folder/outputpath/ -f -cl\n"
      + "The last '/' or '\\' is important! \n\n";
+  public static final String INITIALISED = "Java M2 Coverter initialized...";
+  public static final String VALIDATED = "Arguments validated...";
+  public static final String CONVERTING = "Converting...";
+  public static final String OUT_FOLDER_CREATED = "Output folder created: ";
 
   public static final String FILE_ENDING_M2 = ".m2";
 
@@ -79,8 +83,12 @@ public class Constants {
   }
 
   public static class ErrorMessages {
+    public static final String ERR_VALID_FAILED = "Validation failed.";
     public static final String ERR_IN_OUT = "Error : No input or/and output specified.";
     public static final String ERR_NO_FOLDER = "Error : Folder does not exist: ";
+    public static final String ERR_NO_M2_FILE = "Error : Please specify the correct file in input/output. .m2 format required.";
+    public static final String ERR_NO_VERSION = "Error : No version specified. Validation failed.";
+    public static final String ERR_INIT_FAILED = "Initialization failed.";
   }
 
 

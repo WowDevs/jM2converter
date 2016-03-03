@@ -10,6 +10,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.ParseException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,6 +25,9 @@ import java.util.Map.Entry;
  */
 public class Main {
 
+  private static HelpFormatter HELP_FORMATTER;
+  private static CommandLine CMD;
+
   /**
    * Main method.
    *
@@ -31,58 +35,83 @@ public class Main {
    * @throws Exception
    */
   public static void main(String[] args) throws Exception {
+    init(args);
+
+    validateArguments();
+
+    convert();
+  }
+
+  private static void init(String[] args) {
     System.out.println(Constants.AUTHOR_MESSAGE);
 
-    HelpFormatter formatter = new HelpFormatter();
-    CommandLineParser cmdParser = new DefaultParser();
-    CommandLine cmd = cmdParser.parse(Constants.CMD_OPTIONS, args);
+    HELP_FORMATTER = new HelpFormatter();
+    CommandLineParser CMD_PARSSER = new DefaultParser();
 
-    if (!cmd.hasOption(Constants.OptionsValue.IN) || !cmd.hasOption(Constants.OptionsValue.OUT)) {
-      System.err.println(Constants.ErrorMessages.ERR_IN_OUT);
-      formatter.printHelp(Constants.HELP, Constants.CMD_OPTIONS);
-      System.exit(1);
+    try {
+      CMD = CMD_PARSSER.parse(Constants.CMD_OPTIONS, args);
+      System.out.println(Constants.INITIALISED);
     }
-
-    if (cmd.hasOption(Constants.OptionsValue.F)) {
-      if (!folderExists(cmd.getOptionValue(Constants.OptionsValue.IN))) {
-        System.err.println(Constants.ErrorMessages.ERR_NO_FOLDER + cmd.getOptionValue(Constants.OptionsValue.F));
-        formatter.printHelp(Constants.HELP, Constants.CMD_OPTIONS);
-        System.exit(1);
-      }
-      else {
-        if (!folderExists(cmd.getOptionValue(Constants.OptionsValue.OUT))) {
-          File outputFolder = new File(cmd.getOptionValue(Constants.OptionsValue.OUT));
-          outputFolder.mkdir();
-          System.out.println("Output folder created: " + outputFolder.getAbsolutePath());
-        }
-        convert(cmd, cmd.hasOption(Constants.OptionsValue.F));
-      }
-    }
-    else {
-      convert(cmd, cmd.hasOption(Constants.OptionsValue.F));
+    catch (ParseException e) {
+      System.err.println(Constants.ErrorMessages.ERR_INIT_FAILED + "\n");
+      e.printStackTrace();
+      HELP_FORMATTER.printHelp("\n" + Constants.HELP, Constants.CMD_OPTIONS);
     }
   }
 
-  private static void convert(CommandLine cmd, boolean isFolder) throws Exception {
-    if (isFolder) {
-      proccessFiles(cmd, getFileNamesFromFolder(cmd.getOptionValue(Constants.OptionsValue.IN)), true);
+  private static void validateArguments() {
+    if (!CMD.hasOption(Constants.OptionsValue.IN) || !CMD.hasOption(Constants.OptionsValue.OUT)) {
+      System.err.println(Constants.ErrorMessages.ERR_VALID_FAILED + "\n" + Constants.ErrorMessages.ERR_IN_OUT + "\n");
+      printHelpAndExit();
+    }
+
+    if (!CMD.hasOption(Constants.OptionsValue.CL)) {
+      System.err.println(Constants.ErrorMessages.ERR_VALID_FAILED + "\n" + Constants.ErrorMessages.ERR_NO_VERSION + "\n");
+      printHelpAndExit();
+    }
+
+    if (CMD.hasOption(Constants.OptionsValue.F)) {
+      if (!folderExists(CMD.getOptionValue(Constants.OptionsValue.IN))) {
+        System.err.println(Constants.ErrorMessages.ERR_VALID_FAILED + "\n" + Constants.ErrorMessages.ERR_NO_FOLDER + CMD.getOptionValue(Constants.OptionsValue.F) + "\n");
+        printHelpAndExit();
+      }
+    }
+
+    if (!CMD.hasOption(Constants.OptionsValue.F)) {
+      if (!CMD.getOptionValue(Constants.OptionsValue.IN).contains(".m2") || !CMD.getOptionValue(Constants.OptionsValue.OUT).contains(".m2")) {
+        System.err.println(Constants.ErrorMessages.ERR_VALID_FAILED + "\n" + Constants.ErrorMessages.ERR_NO_M2_FILE + "\n");
+        printHelpAndExit();
+      }
+    }
+
+    System.out.println(Constants.VALIDATED);
+  }
+
+  private static void convert() throws Exception {
+    System.out.println(Constants.CONVERTING + "\n");
+
+    if (CMD.hasOption(Constants.OptionsValue.F)) {
+      if (!folderExists(CMD.getOptionValue(Constants.OptionsValue.OUT))) {
+        File outputFolder = new File(CMD.getOptionValue(Constants.OptionsValue.OUT));
+        outputFolder.mkdir();
+        System.out.println(Constants.OUT_FOLDER_CREATED + outputFolder.getAbsolutePath());
+      }
+      proccessFiles(getFileNamesFromFolder(CMD.getOptionValue(Constants.OptionsValue.IN)), true);
     }
     else {
       ArrayList<String> fileList = new ArrayList<>();
-      fileList.add(cmd.getOptionValue(Constants.OptionsValue.IN));
-      proccessFiles(cmd, fileList, false);
+      fileList.add(CMD.getOptionValue(Constants.OptionsValue.IN));
+      proccessFiles(fileList, false);
     }
-
   }
 
-  private static void proccessFiles(CommandLine cmd, ArrayList<String> fileList, boolean isFolder) throws Exception {
+  private static void proccessFiles(ArrayList<String> fileList, boolean isFolder) throws Exception {
     for (String currentFile : fileList) {
-
       BlizzardInputStream in = new BlizzardInputStream(
-         (isFolder) ?
-            cmd.getOptionValue(Constants.OptionsValue.IN) + currentFile
-            :
-            currentFile);
+        (isFolder) ?
+          CMD.getOptionValue(Constants.OptionsValue.IN) + currentFile
+          :
+          currentFile);
 
       Marshalable marshalableObject = (Marshalable) in.readObject();
       in.close();
@@ -100,12 +129,12 @@ public class Main {
 
       System.out.println(currentFile + " read.");
 
-      int newVersion = convertModel(m2Model, cmd);
+      int newVersion = convertModel(m2Model);
 
       System.out.println("Conversion completed.");
 
       if (!isFolder) {
-        File newFile = new File(cmd.getOptionValue(Constants.OptionsValue.OUT));
+        File newFile = new File(CMD.getOptionValue(Constants.OptionsValue.OUT));
         if (!newFile.exists()) {
           File newDir = new File(newFile.getParent());
           if (!newDir.exists()) {
@@ -115,9 +144,9 @@ public class Main {
       }
 
       BlizzardOutputStream out = (isFolder) ?
-         new BlizzardOutputStream(cmd.getOptionValue(Constants.OptionsValue.OUT) + currentFile)
-         :
-         new BlizzardOutputStream(cmd.getOptionValue(Constants.OptionsValue.OUT));
+        new BlizzardOutputStream(CMD.getOptionValue(Constants.OptionsValue.OUT) + currentFile)
+        :
+        new BlizzardOutputStream(CMD.getOptionValue(Constants.OptionsValue.OUT));
 
       if (newVersion == M2Format.LEGION) {
         //Pack the MD20 inside MD21 chunked format
@@ -128,34 +157,39 @@ public class Main {
       else {
         out.writeObject(m2Model);
       }
+
       System.out.println(
-         (isFolder) ?
-            cmd.getOptionValue(Constants.OptionsValue.OUT) + currentFile + " written."
-            :
-            cmd.getOptionValue(Constants.OptionsValue.OUT) + " written.");
+        (isFolder) ?
+          CMD.getOptionValue(Constants.OptionsValue.OUT) + currentFile + " written."
+          :
+          CMD.getOptionValue(Constants.OptionsValue.OUT) + " written.");
+
       out.close();
     }
   }
 
-  private static int convertModel(M2 model, CommandLine cmd) throws Exception {
-    boolean converted = false;
+  private static int convertModel(M2 model) throws Exception {
     int oldVersion = model.getVersion();
     int newVersion = oldVersion;
+    boolean converted = false;
+
     for (Entry<String, Integer> entry : Constants.M2_FORMATS.entrySet()) {
       String option = entry.getKey();
       Integer version = entry.getValue();
-      if (cmd.hasOption(option)) {
+      if (CMD.hasOption(option)) {
         model.convert(version);
         converted = true;
         newVersion = version;
       }
     }
+
     if (!converted) {
       System.err.println("Warning : no version specified. The model has not been converted.");
     }
     else if (oldVersion == newVersion) {
       System.err.println("Warning : original version and new version are identical.");
     }
+
     return newVersion;
   }
 
@@ -177,5 +211,10 @@ public class Main {
 
   private static boolean folderExists(String pathToFolder) {
     return new File(pathToFolder).exists();
+  }
+
+  private static void printHelpAndExit() {
+    HELP_FORMATTER.printHelp(Constants.HELP, Constants.CMD_OPTIONS);
+    System.exit(1);
   }
 }
