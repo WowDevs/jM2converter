@@ -9,14 +9,24 @@ And setup paths for your environment : [PATH and CLASSPATH](https://docs.oracle.
 
 Command line : `java -jar jm2converter.jar -in "Frog.m2" -out "FrogConverted.m2" <OPTIONS>`
 
-Type `java -jar jm2converter.jar` to get a list of all converting options ;)
+
+##Usage with whole folders(only in oppahansi's version)
+
+Command line : `java -jar jm2converter.jar -in "path/to/inputFolder/" -out "path/to/outputfolder/" <OPTIONS>`
+
+The "/" or "\" at the end of paths is important. New option is -f for whole folders. Only in oppahansi's version.
+
+Type `java -jar jm2converter.jar` to get a list of all converting options and two examples ;)
 
 * Beware, when you retroport a model, you always lose some data (the newer client features) and you won't be able to get them back if you up convert it back later.
 
 * The Legion support is still changing. The game is still in Beta so the M2 format changes. Right now it should work up to build 20810.
 
 ##Download :
-[MediaFire link](http://adf.ly/1TtsYH)
+[MediaFire link](http://adf.ly/1TtsYH)  
+
+
+[MediaFire link](http://www.mediafire.com/download/339o8t1vm4bw641/jM2converter.jar)  -  oppahansi's version with folder support
 
 ##What's yet to be implemented :
 * BC => LK up-conversion.
